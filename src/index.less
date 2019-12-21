@@ -1,0 +1,130 @@
+h1 {
+    width: 100%;
+    text-align: center;
+}
+
+.__mixin__input {
+    height: 45px;
+    border-radius: 18px;
+    border: 2px solid dodgerblue;
+    font-size: 1.5em;
+    outline: none;
+    margin: 10px;
+}
+
+.codeInput {
+    .__mixin__input();
+
+    padding: 0 20px;
+    font-weight: bold;
+    transition: background-color .5s;
+
+    &__description {
+        font-size: 1.2em;
+        color: grey;
+    }
+
+    &__container {
+        width: 100%;
+        text-align: center;
+        margin: 20px 0;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    &__wrapper {
+        .countButton {
+            .__mixin__input();
+
+            height: 49px;
+            background-color: dodgerblue;
+            color: white;
+
+            &:hover {
+                background-color: aliceblue;
+                color: dodgerblue;
+                cursor: pointer;
+            }
+
+            &:active {
+                box-shadow: 0 3px 0 grey;
+                background-color: darkblue;
+                color: white;
+                border-color: darkblue;
+                top: 3px;
+            }
+
+            &--disabled,
+            &--disabled:active,
+            &--disabled:hover {
+                background-color: lightgrey;
+                border-color: lightsteelblue;
+                color: white;
+                box-shadow: none;
+                cursor: initial;
+            }
+        }
+    }
+
+    &:hover {
+        background-color: lightblue;
+    }
+
+    &:focus {
+        background-color: aliceblue;
+    }
+
+    &--error,
+    &--error:hover,
+    &--error:focus {
+        background-color: #ff000030;
+        border-color: red;
+    }
+
+    &__error {
+        color: red;
+        font-size: 15px;
+    }
+}
+
+.results {
+    border: 5px solid dodgerblue;
+    margin: 0 5%;
+    padding: 40px 4%;
+
+    &__bitArray {
+        font-size: 1.4em;
+        border: 1px solid;
+        text-align: center;
+        display: flex;
+        margin-left: 20px;
+
+        &__container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+    }
+
+    &__bitBlock {
+        width: 30px;
+        height: 30px;
+        border-right: 1px solid;
+
+        &:last-child {
+            border-right: none;
+        }
+
+        &--control {
+            background-color: orangered;
+        }
+    }
+
+    &__container {
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: column;
+        width: 100%;
+    }
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Код Хэмминга</title>
+</head>
+<body>
+    <h1>Код Хэмминга</h1>
+    <div class="codeInput__container">
+        <p class="codeInput__description">Введите сообщение:</p>
+        <div class="codeInput__wrapper">
+            <input class="codeInput" type="text" data-bind="textInput: codeString, class: inputClass" maxlength="32"/>
+            <button class="countButton" data-bind="class: buttonClass, disable: inputError">Рассчитать</button>
+        </div>
+        <p data-bind="visible: inputError" class="codeInput__error">
+            Ошибка: Введите сообщение в двоичном числовом формате
+        </p>
+    </div>
+    <div class="results__container" data-bind="visible: computed">
+        <h1>Результат</h1>
+        <div class="results">
+            <div class="results__bitArray__container">
+                <span>Изначальное сообщение: </span>
+                <div class="results__bitArray" data-bind="foreach: initialMsg">
+                    <div class ="results__bitBlock" data-bind="text: $data">
+                    </div>
+                </div>
+            </div>
+            <p>Длина начального сообщения: <span data-bind="text: initialMsgLen"></span></p>
+            <div class="results__bitArray__container">
+                <span>Сообщение с контрольными битами: </span>
+                <div class="results__bitArray" data-bind="foreach: controlMsg">
+                    <div class ="results__bitBlock" data-bind="text: $data.value, class: $data.cssClass">
+                    </div>
+                </div>
+            </div>
+            <p>Длина сообщения c контрольными битами: <span data-bind="text: controlMsgLen"></span></p>
+        </div>
+    </div>
+</body>
+</html>
