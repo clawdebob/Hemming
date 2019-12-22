@@ -19,7 +19,7 @@ viewModel.inputClass = ko.pureComputed(function () {
 }, viewModel);
 
 viewModel.buttonClass = ko.pureComputed(function () {
-    return this.inputError() ? 'countButton--disabled' : '';
+    return this.inputError() || !this.codeString() ? 'countButton--disabled' : '';
 }, viewModel);
 
 viewModel.initialMsgLen = ko.pureComputed(function () {
@@ -41,6 +41,8 @@ console.log(calculate.calculateCost(matrix, [2,4]));
 console.log(calculate.calculateEfficiency(calculate.calculateAcceleration(matrix), [2,4]));
 
 ko.applyBindings(viewModel);
+
+console.log(viewModel.codeString());
 
 viewModel.codeString.subscribe((data) => {
     const binaryReg = /^[01]+$/gmi;

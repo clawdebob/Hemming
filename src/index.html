@@ -10,7 +10,7 @@
         <p class="codeInput__description">Введите сообщение:</p>
         <div class="codeInput__wrapper">
             <input class="codeInput" type="text" data-bind="textInput: codeString, class: inputClass" maxlength="32"/>
-            <button class="countButton" data-bind="class: buttonClass, disable: inputError">Рассчитать</button>
+            <button class="countButton" data-bind="class: buttonClass, disable: !codeString() || inputError">Рассчитать</button>
         </div>
         <p data-bind="visible: inputError" class="codeInput__error">
             Ошибка: Введите сообщение в двоичном числовом формате
