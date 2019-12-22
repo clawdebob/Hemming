@@ -11,6 +11,7 @@ const viewModel = {
     fullMessageString: ko.observable(''),
     initialMsg: ko.observable([]),
     controlMsg: ko.observable([]),
+    finalMsg: ko.observable([]),
 };
 
 viewModel.inputClass = ko.pureComputed(function () {
@@ -29,6 +30,16 @@ viewModel.controlMsgLen = ko.pureComputed(function () {
     return this.controlMsg().length;
 }, viewModel);
 
+const matrix = [
+    [5,5,5,5,6],
+    [1,2,3,4,5],
+    [3,4,5,2,2]
+];
+
+console.log(calculate.calculateAcceleration(matrix));
+console.log(calculate.calculateCost(matrix, [2,4]));
+console.log(calculate.calculateEfficiency(calculate.calculateAcceleration(matrix), [2,4]));
+
 ko.applyBindings(viewModel);
 
 viewModel.codeString.subscribe((data) => {
@@ -37,26 +48,23 @@ viewModel.codeString.subscribe((data) => {
 });
 
 $('.countButton').on('click', () => {
-   const bitArray = _.map(viewModel.codeString().split(''), (val) => Number(val));
-   const bitAddResults = calculate.getControlBitsResults(_.clone(bitArray));
-   // const fullArray = bitAddResults.bitArray;
-   const controlBitsPositions = bitAddResults.controlBitsPositions;
-   console.log(controlBitsPositions);
-    const fullArray = _.map(bitAddResults.bitArray, (value, idx) => {
+    const bitArray = _.map(viewModel.codeString().split(''), (val) => Number(val));
+    const bitAddResults = calculate.getControlBitsResults(_.clone(bitArray));
+    const controlBitsPositions = bitAddResults.controlBitsPositions;
+    const controlBitHandler = (value, idx) => {
         const cssClass = _.includes(controlBitsPositions, idx) ? 'results__bitBlock--control' : '';
 
         return {
             value,
             cssClass
         }
-    });
-   const fullMessageString = _.reduce(bitArray, (str, val) => str + val, '');
-
-   viewModel.initialMsg(bitArray);
-   viewModel.controlMsg(fullArray);
-    calculate.calculateControlBits(bitAddResults);
-   viewModel.computed(true);
-    console.log(fullMessageString);
+    };
+    const fullArray = _.map(bitAddResults.bitArray, controlBitHandler);
+    viewModel.initialMsg(bitArray);
+    viewModel.controlMsg(fullArray);
+    const result = _.map(calculate.calculateControlBits(bitAddResults), controlBitHandler);
+    viewModel.finalMsg(result);
+    viewModel.computed(true);
 });
 
 

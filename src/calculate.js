@@ -1,3 +1,6 @@
+const excludeFirst = (val, idx) => idx !== 0;
+const reduceFloat = (val) => Number((val).toFixed(4));
+
 module.exports = {
     getControlBitsResults: (bitArray) => {
         const initialLength = bitArray.length;
@@ -19,33 +22,49 @@ module.exports = {
     calculateControlBits: (controlMsg) => {
         const controlBitsCountArray = new Array(controlMsg.controlBitsPositions.length).fill(0);
 
-        console.log(controlMsg.bitArray);
-
         controlMsg.bitArray.forEach((val, idx) => {
-            const binaryCounter = (idx+1)
+            const binaryCounter = (idx + 1)
                 .toString(2)
                 .padStart(controlMsg.controlBitsPositions.length, '0')
                 .split('')
                 .map((val) => Number(val));
 
             binaryCounter.forEach((ival, iidx) => {
-                // console.log(ival, val);
                 if(ival === 1 && val === 1){
                     controlBitsCountArray[iidx]++;
                 }
-                console.log('counter',binaryCounter, val);
             });
         });
-        console.log(controlBitsCountArray);
 
         const finalControlBitsArray = controlBitsCountArray.reverse().map((val) => val%2===0 ? 0 : 1);
 
-        console.log(finalControlBitsArray);
+        return controlMsg.bitArray.map((val, idx) => {
+            const controlIdx = controlMsg.controlBitsPositions.indexOf(idx);
 
-        // for(let c = 0; c < controlMsg.bitArray.length; c++) {
-        //     const binaryCounter = c.toString(2).padStart(controlMsg.controlBitsPositions.length, '0');
-        //
-        //     console.log(binaryCounter);
-        // }
+            return  controlIdx !== -1 ? finalControlBitsArray[controlIdx] : val;
+        });
+    },
+
+    calculateAcceleration: (matrix) => {
+        return matrix
+            .filter(excludeFirst)
+            .map((row, idx) => {
+                return row.map((val) => reduceFloat(matrix[0][idx] / val));
+            });
+    },
+
+    calculateCost: (matrix, threadsArray) => {
+        return matrix
+            .filter(excludeFirst)
+            .map((row, idx) => {
+                return row.map((val) => reduceFloat(threadsArray[idx] * val));
+            });
+    },
+
+    calculateEfficiency: (accelerationMatrix, threadsArray) => {
+        return accelerationMatrix
+            .map((row, idx) => {
+                return row.map((val) => reduceFloat(val / threadsArray[idx]));
+            });
     },
 };
