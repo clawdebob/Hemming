@@ -18,6 +18,12 @@ h1 {
     padding: 0 20px;
     font-weight: bold;
     transition: background-color .5s;
+    width: auto;
+    display: inline-block;
+
+    @media (max-width: 400px) {
+        width: 240px;
+    }
 
     &__description {
         font-size: 1.2em;
@@ -92,6 +98,7 @@ h1 {
     border: 5px solid dodgerblue;
     margin: 0 5%;
     padding: 40px 4%;
+    overflow: auto;
 
     &__bitArray {
         font-size: 1.4em;
