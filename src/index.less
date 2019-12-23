@@ -94,6 +94,49 @@ h1 {
     }
 }
 
+.__mixin__table__row(@color) {
+    background-color: @color;
+    input {
+        background-color: @color;
+    }
+}
+
+#tact-table {
+    margin-bottom: 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &-1 {
+        border: 1px solid;
+        border-collapse: collapse;
+    }
+
+    tr{
+        &:first-child {
+            .__mixin__table__row(yellow);
+        }
+
+        &:nth-child(2) {
+            .__mixin__table__row(orange);
+        }
+    }
+
+    td, th {
+        border: 1px solid;
+        max-width: min-content;
+    }
+
+    input {
+        border: none;
+        width: 17px;
+        background-color: white;
+        color: black;
+        text-align: center;
+    }
+}
+
 .results {
     border: 5px solid dodgerblue;
     margin: 0 5%;

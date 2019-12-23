@@ -3,6 +3,7 @@ import ko from 'knockout';
 import $ from 'jquery';
 import _ from 'lodash';
 import calculate from './calculate';
+import createTables from './createTables';
 
 const viewModel = {
     codeString: ko.observable(''),
@@ -30,19 +31,7 @@ viewModel.controlMsgLen = ko.pureComputed(function () {
     return this.controlMsg().length;
 }, viewModel);
 
-const matrix = [
-    [5,5,5,5,6],
-    [1,2,3,4,5],
-    [3,4,5,2,2]
-];
-
-console.log(calculate.calculateAcceleration(matrix));
-console.log(calculate.calculateCost(matrix, [2,4]));
-console.log(calculate.calculateEfficiency(calculate.calculateAcceleration(matrix), [2,4]));
-
 ko.applyBindings(viewModel);
-
-console.log(viewModel.codeString());
 
 viewModel.codeString.subscribe((data) => {
     const binaryReg = /^[01]+$/gmi;
@@ -62,9 +51,20 @@ $('.countButton').on('click', () => {
         }
     };
     const fullArray = _.map(bitAddResults.bitArray, controlBitHandler);
+    createTables.deleteTable('tact-table');
     viewModel.initialMsg(bitArray);
     viewModel.controlMsg(fullArray);
-    const result = _.map(calculate.calculateControlBits(bitAddResults), controlBitHandler);
+    const resObj = calculate.calculateControlBits(bitAddResults);
+    const result = _.map(resObj.result, controlBitHandler);
+    createTables.buildTables(resObj.bitmap, 'tact-table', 'Таблица тактов');
+    const dataBits = $('#tact-table td, th');
+    for(let column = 0; column < dataBits.length; column++) {
+        const input = dataBits[column].querySelector('input[value="x"]');
+        if(input) {
+            dataBits[column].style['background-color'] = 'red';
+            input.style['background-color'] = 'red';
+        }
+    }
     viewModel.finalMsg(result);
     viewModel.computed(true);
 });

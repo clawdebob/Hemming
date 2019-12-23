@@ -51,7 +51,16 @@ describe('"Calculate" module test', () => {
                 .equal(controlMessage.bitArrayStr);
         });
         it('Test final result calculation', () => {
-            expect(calculate.calculateControlBits(controlMessage).join('')).equal(resultMessage);
+            expect(calculate.calculateControlBits(controlMessage).result.join('')).equal(resultMessage);
+        });
+    });
+
+    describe('Test calculation functions', () => {
+       it('Test disp function', () => {
+           expect(calculate.disp(4)).equal('-0.19232');
+       });
+        it('Test mat function', () => {
+            expect(calculate.mat(4)).equal('9.47542');
         });
     });
 });
